@@ -1,9 +1,53 @@
+// *를 쓰는 이유는 export default가 내장되어 있지 않기 때문이다. 
 import * as express from 'express';
+import * as morgan from 'morgan';
+import * as cors from 'cors';
+import * as cookieParser from 'cookie-parser';
+import * as expressSession from 'express-session';
+import * as dotenv from 'dotenv';
+import * as passport from 'passport';
+import * as hpp from 'hpp';
+import * as helmet from 'helmet';
 
+dotenv.config();
 const app = express();
 const prod = process.env.NODE_ENV === 'production';
 
 app.set('port', prod ? process.env.PORT : 3065);
+
+if(prod) {
+    app.use(hpp());
+    app.use(helmet());
+    app.use(morgan('combined'));
+    app.use(cors({
+        origin: /nodebird\.com$/,
+        credentials: true
+    }))
+} else {
+    app.use(morgan('dev'));
+    app.use(cors({
+        origin: true,
+        credentials: true
+    }))
+}
+
+app.use('/', express.static('uploads/'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(expressSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET!, //확실히 있다고 '!'로 명시해서 에러를 안나게 한다.(본인은 알기 때문에)
+    cookie: { 
+        httpOnly: true,
+        secure: false,
+        domain: prod ? '.nodebird.com' : undefined
+    },
+    name: 'rnbck',
+}))
+
+
 app.get('/', (req, res) => {
     res.send('react nodebird Backend normal operation');
 })
