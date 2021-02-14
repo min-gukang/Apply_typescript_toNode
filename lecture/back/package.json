@@ -1,0 +1,28 @@
+{
+  "name": "nodebird-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/min-gukang/Apply_typescript_toNode.git"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "author": "mingukang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/min-gukang/Apply_typescript_toNode/issues"
+  },
+  "homepage": "https://github.com/min-gukang/Apply_typescript_toNode#readme",
+  "dependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.27",
+    "express": "^4.17.1",
+    "typescript": "^4.1.5"
+  }
+}
