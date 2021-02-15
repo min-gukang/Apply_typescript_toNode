@@ -25,4 +25,4 @@ Hashtag.init({
 export const associate = (db: dbType) => {
 
 }
-export default hashtag;
+export default Hashtag;

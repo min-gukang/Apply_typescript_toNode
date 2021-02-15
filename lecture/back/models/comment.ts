@@ -1,10 +1,10 @@
-import { Model } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { dbType } from '.';
 import { sequelize } from './sequelize';
 
 class Comment extends Model {
     public readonly id!: number;
-    public content!: string,
+    public content!: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }

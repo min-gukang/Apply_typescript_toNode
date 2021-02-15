@@ -9,7 +9,7 @@ import * as passport from 'passport';
 import * as hpp from 'hpp';
 import * as helmet from 'helmet';
 
-import { sequelize } from './models'
+import { sequelize } from './models' // index.ts 파일임
 
 dotenv.config();
 const app = express();
@@ -19,7 +19,7 @@ app.set('port', prod ? process.env.PORT : 3065);
 
 //force를 true로 하면 서버를 재시작할때마다 테이블 초기화됨. 개발할때 컬럼추가나 테이블변경시에 사용한다. 
 //배포시에는 false로 한다 
-sequelize.sync({ force: false }) 
+sequelize.sync({ force: false })  //비동기 작업임
     .then(() => {
         console.log('데이터 베이스 연결성공');
     })
