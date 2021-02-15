@@ -5,7 +5,7 @@ import config from '../config/config';
 // 그래서 직접 as로 명시를 해주면 된다. 
 const env = process.env.NODE_ENV as ('production' | 'test' | 'development') || 'development';
 const { database, username, password } = config[env];
-const sequelize = new Sequelize(database, username, password, config[env]);
+const sequelize = new Sequelize(database, username, password, config[env]); //env 에러 났던거 config.ts에서 정확한 타입을 지정해줘서 해결해줌. 
 
 export { sequelize };
 export default sequelize;

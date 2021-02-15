@@ -9,11 +9,23 @@ import * as passport from 'passport';
 import * as hpp from 'hpp';
 import * as helmet from 'helmet';
 
+import { sequelize } from './models'
+
 dotenv.config();
 const app = express();
 const prod = process.env.NODE_ENV === 'production';
 
 app.set('port', prod ? process.env.PORT : 3065);
+
+//force를 true로 하면 서버를 재시작할때마다 테이블 초기화됨. 개발할때 컬럼추가나 테이블변경시에 사용한다. 
+//배포시에는 false로 한다 
+sequelize.sync({ force: false }) 
+    .then(() => {
+        console.log('데이터 베이스 연결성공');
+    })
+    .catch((err: Error) => {
+        console.error(err);
+    })
 
 if(prod) {
     app.use(hpp());
