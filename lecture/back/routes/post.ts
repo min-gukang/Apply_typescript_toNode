@@ -12,9 +12,7 @@ import User from '../models/user';
 
 const router = express.Router();
 
-// AWS.config.update({
-
-// })
+//이미지업로드 부분은 제외함. 
 
 router.post('/', isLoggedIn, async (req, res, next) => {
     try {
@@ -23,14 +21,14 @@ router.post('/', isLoggedIn, async (req, res, next) => {
             content: req.body.content,
             UserId: req.user!.id
         })
-        if(hashtags) {
+        if(hashtags) { //해쉬태그 게시물에 넣어주기 
             const promises = hashtags.map((tag) => Hashtag.findOrCreate({
                 where: { name: tag.slice(1).toLowerCase()},
             }));
             const result = await Promise.all(promises);
             await newPost.addHashtags(result.map(r => r[0]));
         }
-        if( req.body.image) {
+        if( req.body.image) { //이미지 넣어주기 
             if(Array.isArray(req.body.image)) {
                 const promises: BlueBird<Image>[] = req.body.image.map((image: string) => Image.create({ src: image})) //시퀄라이즈가 타이핑을 BlueBird를 쓴다
                 const images = await Promise.all(promises);
@@ -56,6 +54,27 @@ router.post('/', isLoggedIn, async (req, res, next) => {
         return res.json(fullPost);
     } catch(error) {
 
+    }
+})
+
+router.get('/:id', async( req, res, next) => {
+    try {
+        const post = await Post.findOne({
+            where: {id: req.params.id},
+            include: [{
+                model: User,
+                attributes: ['id', 'nickname'],
+            }, {
+                model: Image,
+            }, {
+                model: User,
+                as: 'Likers',
+                attributes: ['id']
+            }]
+        })
+        return res.json(post);
+    } catch(e) {
+        
     }
 })
 
