@@ -10,6 +10,8 @@ import * as hpp from 'hpp';
 import * as helmet from 'helmet';
 
 import { sequelize } from './models' // index.ts 파일임
+import userRouter from './routes/user';
+import postRouter from './routes/post';
 
 dotenv.config();
 const app = express();
@@ -59,7 +61,8 @@ app.use(expressSession({
     name: 'rnbck',
 }))
 
-
+app.use('/user', userRouter);
+app.use('/post', postRouter);
 app.get('/', (req, res) => {
     res.send('react nodebird Backend normal operation');
 })
